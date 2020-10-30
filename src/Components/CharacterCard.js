@@ -1,35 +1,30 @@
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 
-export default function CharacterCard() {
+export default function CharacterCard({imgUrl, name, status, species, location, origin, id}) {
   return (
-    <>
       <CharacterCardWrapper>
-        <img
-          src="https://rickandmortyapi.com/api/character/avatar/8.jpeg"
-          alt=""
-        />
-        <div className="characterCardContent">
-          {" "}
-          <h1>Morty</h1> <h2>Dead - Human</h2>
-          <p>
-            Last known loaction: <span>Citadellll</span>
-          </p>
-          <p>
-            First seen in: <span>lmfösdmfödlmf</span>
-          </p>
+        <div className="imageContainer">
+            <img
+            src={imgUrl}
+            alt=""
+            />
+            <h2>{status} - {species}</h2>
         </div>
-
+        <div className="characterCardContent">
+            <h1>{name}</h1>
+            <p>Location: <br></br><span>{location}</span></p>
+            <p>Origin: <br></br><span>{origin}</span></p>
+        </div>
         <button>Bookmark +</button>
       </CharacterCardWrapper>
-    </>
   );
 }
 
 const CharacterCardWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  //grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: 1fr;
   grid-gap: 10px;
 
   background-color: hsla(263, 79%, 33%, 0.9);
@@ -42,15 +37,35 @@ const CharacterCardWrapper = styled.div`
   -moz-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
   box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
 
+  div.imageContainer {
+      position: relative;
+  }
+
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-align: left;
     color: #a3c259;
     margin-bottom: 5px;
   }
+
+  h2 {
+      grid-column: 1;
+      margin-left: 2%;
+      padding-top: 1%;
+      padding-bottom: 1%;
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      bottom: 7px;
+      background-color: hsla(263, 79%, 33%, 0.9);
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+      font-weight: 400;
+  }
+
   img {
     grid-column: 1;
-    align-self: center;
+    align-self: start;
     justify-self: stretch;
     width: 100%;
 
@@ -71,6 +86,7 @@ const CharacterCardWrapper = styled.div`
   }
   span {
     font-weight: bold;
+    font-size: 0.9rem;
   }
 
   button {

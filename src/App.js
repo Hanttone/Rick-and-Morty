@@ -1,13 +1,12 @@
 import GlobalStyles from "./GlobalStyles";
-import styled from 'styled-components/macro'
-
-
+import styled from "styled-components/macro";
+import CharacterCard from "./Components/CharacterCard";
 
 function App() {
   return (
     <AppWrapper>
       <GlobalStyles />
-      <h1>Hello World</h1>
+      <CharacterCard />
     </AppWrapper>
   );
 }

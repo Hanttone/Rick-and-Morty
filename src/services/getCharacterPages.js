@@ -1,16 +1,3 @@
-import {useState} from 'react'
-
-//export default function getCharacterPages() {
-//  let data = [];
-//  fetch(
-//    "https://rickandmortyapi.com/api/character/?page=1"
-//  ).
- // fetch(
-//    "https://rickandmortyapi.com/api/character/?page=2"
-//  ).then((res) => data.push(res.json()));
-//  return data;
-//}
-
 export default async function GetCharacterPages() {
    let allData = [];
    let morePagesAvailable = true;

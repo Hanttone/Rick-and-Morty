@@ -1,7 +1,6 @@
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components/macro";
 import CharacterCard from "./Components/CharacterCard";
-//import getData from "./services/getData";
 import { useState, useEffect } from "react";
 import SearchField from "./Components/SearchField";
 import getCharacterPages from "./services/getCharacterPages";
@@ -11,18 +10,10 @@ function App() {
   const [search, setSearch] = useState([]);
 
   useEffect(() => {
-
     getCharacterPages().then(chars => setCharacters(chars))
-    //fetchingChar()
-    //.forEach(promise => 
-    //  promise.then(data => {setCharacters(data.results);
-    //                        console.log(data.results);
   }, []);
 
-  //  console.log(characters.name)
-
   const onCreateSearch = (searchValue) => {
-    //const adaptedSearchValue =  searchValue.charAt(0).toUpperCase() + searchValue.slice(1);
     const searchResponse = characters.filter((char) =>
       char.name.toUpperCase().includes(searchValue.toUpperCase())
     );

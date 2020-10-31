@@ -1,26 +1,26 @@
-export default function getCharacterPages() {
-  return fetch(
-    "https://rickandmortyapi.com/api/character/?page=2"
-  ).then((res) => res.json());
-}
+import {useState} from 'react'
 
-// export default async function getCharacterPages() {
-//   let allData = [];
-//   let morePagesAvailable = true;
-//   let currentPage = 0;
+//export default function getCharacterPages() {
+//  let data = [];
+//  fetch(
+//    "https://rickandmortyapi.com/api/character/?page=1"
+//  ).
+ // fetch(
+//    "https://rickandmortyapi.com/api/character/?page=2"
+//  ).then((res) => data.push(res.json()));
+//  return data;
+//}
 
-//   while (morePagesAvailable) {
-//     currentPage++;
-//     const response = await fetch(
-//       `https://rickandmortyapi.com/api/character/?page=${currentPage}`
-//     );
+export default async function GetCharacterPages() {
+   let allData = [];
+   let morePagesAvailable = true;
+   let currentPage = 0;
 
-//     let { data, total_pages } = await response.json();
-
-//     console.log("IIIIIIIIIIIIIII", await response.json());
-//     data.forEach((e) => allData.unshift(e));
-//     morePagesAvailable = currentPage < total_pages;
-//   }
-
-//   return allData;
-// }
+   while (morePagesAvailable) {
+     currentPage++;
+      const response = await fetch('https://rickandmortyapi.com/api/character/?page='+ currentPage)
+      await response.json().then(info => allData.push(...info.results));
+      morePagesAvailable = currentPage < 20;
+   }
+   return allData;
+ }

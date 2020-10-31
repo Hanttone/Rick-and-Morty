@@ -22,5 +22,6 @@ export default async function GetCharacterPages() {
       await response.json().then(info => allData.push(...info.results));
       morePagesAvailable = currentPage < 20;
    }
+
    return allData;
  }

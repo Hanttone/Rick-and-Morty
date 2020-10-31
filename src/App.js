@@ -11,9 +11,9 @@ function App() {
   const [search, setSearch] = useState([]);
 
   useEffect(() => {
-    setCharacters(getCharacterPages())
-    //console.log(allData)
-    //dataLoop(allData)
+
+    getCharacterPages().then(chars => setCharacters(chars))
+    //fetchingChar()
     //.forEach(promise => 
     //  promise.then(data => {setCharacters(data.results);
     //                        console.log(data.results);
@@ -22,14 +22,13 @@ function App() {
   //  console.log(characters.name)
 
   const onCreateSearch = (searchValue) => {
+    //const adaptedSearchValue =  searchValue.charAt(0).toUpperCase() + searchValue.slice(1);
     const searchResponse = characters.filter((char) =>
-      char.name.includes(searchValue)
+      char.name.toUpperCase().includes(searchValue.toUpperCase())
     );
 
     setSearch(searchResponse);
   };
-
-  console.log(characters)
 
   return (
     <AppWrapper>

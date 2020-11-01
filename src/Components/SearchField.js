@@ -24,7 +24,6 @@ export default function SearchField({ onCreateSearch, onShowAll }) {
           />
         </label>
         <div className="flex">
-          {" "}
           <button>Search</button>
           <button onClick={handleShowAll}>Show all</button>
         </div>

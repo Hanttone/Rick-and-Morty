@@ -10,6 +10,16 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [search, setSearch] = useState([]);
 
+
+  const [bookmarks, setBookmarks] = useState([])
+
+    const addBookmark = () => {
+      setBookmarks(['bagsana'])
+        console.log('addBookmark')
+    }
+
+  
+
   useEffect(() => {
     getData().then((data) => setCharacters(data.results));
 
@@ -31,6 +41,7 @@ function App() {
   return (
     <AppWrapper>
       <GlobalStyles />
+      <h1>    {bookmarks}</h1>
       <Header>RICK AND MORTY</Header>
       <SearchField onCreateSearch={onCreateSearch} />
       {search.map(({ image, name, status, species, location, origin, id }) => (
@@ -41,6 +52,7 @@ function App() {
           species={species}
           location={location.name}
           origin={origin.name}
+          addBookmark={addBookmark}
           key={id}
         />
       ))}

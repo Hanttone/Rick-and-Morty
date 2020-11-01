@@ -1,8 +1,15 @@
+import React, { useState } from 'react'
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 
-export default function CharacterCard({imgUrl, name, status, species, location, origin, id}) {
+export default function CharacterCard({addBookmark,imgUrl, name, status, species, location, origin, id}) {
+
+    
+
+  
+  
   return (
+
       <CharacterCardWrapper>
         <div className="imageContainer">
             <img
@@ -16,10 +23,11 @@ export default function CharacterCard({imgUrl, name, status, species, location, 
             <p>Location: <br></br><span>{location}</span></p>
             <p>Origin: <br></br><span>{origin}</span></p>
         </div>
-        <button>Bookmark +</button>
+        <button onClick={addBookmark}>Bookmark +</button>
       </CharacterCardWrapper>
   );
 }
+
 
 const CharacterCardWrapper = styled.div`
   display: grid;

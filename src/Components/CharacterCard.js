@@ -1,23 +1,38 @@
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 
-export default function CharacterCard({imgUrl, name, status, species, location, origin, id}) {
+export default function CharacterCard({
+  addBookmark,
+  imgUrl,
+  name,
+  status,
+  species,
+  location,
+  origin,
+  id,
+}) {
   return (
-      <CharacterCardWrapper>
-        <div className="imageContainer">
-            <img
-            src={imgUrl}
-            alt=""
-            />
-            <h2>{status} - {species}</h2>
-        </div>
-        <div className="characterCardContent">
-            <h1>{name}</h1>
-            <p>Location: <br></br><span>{location}</span></p>
-            <p>Origin: <br></br><span>{origin}</span></p>
-        </div>
-        <button>Bookmark +</button>
-      </CharacterCardWrapper>
+    <CharacterCardWrapper>
+      <div className="imageContainer">
+        <img src={imgUrl} alt="" />
+        <h2>
+          {status} - {species}
+        </h2>
+      </div>
+      <div className="characterCardContent">
+        <h1>{name}</h1>
+        <p>
+          Location: <br></br>
+          <span>{location}</span>
+        </p>
+        <p>
+          Origin: <br></br>
+          <span>{origin}</span>
+        </p>
+      </div>
+      <button onClick={addBookmark}>Bookmark +</button>
+    </CharacterCardWrapper>
   );
 }
 
@@ -38,7 +53,7 @@ const CharacterCardWrapper = styled.div`
   box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
 
   div.imageContainer {
-      position: relative;
+    position: relative;
   }
 
   h1 {
@@ -49,18 +64,18 @@ const CharacterCardWrapper = styled.div`
   }
 
   h2 {
-      grid-column: 1;
-      margin-left: 2%;
-      padding-top: 1%;
-      padding-bottom: 1%;
-      width: 100%;
-      text-align: center;
-      position: absolute;
-      bottom: 7px;
-      background-color: hsla(263, 79%, 33%, 0.9);
-      border-top-left-radius: 15px;
-      border-bottom-left-radius: 15px;
-      font-weight: 400;
+    grid-column: 1;
+    margin-left: 2%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 7px;
+    background-color: hsla(263, 79%, 33%, 0.9);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-weight: 400;
   }
 
   img {

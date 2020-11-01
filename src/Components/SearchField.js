@@ -1,16 +1,16 @@
 import styled from "styled-components/macro";
 
-export default function SearchField({ onCreateSearch, onShowAll }) {
+export default function SearchField({
+  onCreateSearch,
+  onShowAll,
+  handleClearSearch,
+}) {
   const searchHandler = (event) => {
     event.preventDefault();
 
     onCreateSearch(event.target.characterinput.value);
 
     event.target.reset();
-  };
-
-  const handleShowAll = () => {
-    onShowAll();
   };
 
   return (
@@ -25,9 +25,12 @@ export default function SearchField({ onCreateSearch, onShowAll }) {
         </label>
         <div className="flex">
           <button>Search</button>
-          <button onClick={handleShowAll}>Show all</button>
         </div>
       </form>
+      <div>
+        <button onClick={onShowAll}>Show all</button>
+        <button onClick={handleClearSearch}>Clear Search</button>
+      </div>
     </SearchWrapper>
   );
 }

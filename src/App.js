@@ -4,10 +4,14 @@ import CharacterCard from "./Components/CharacterCard";
 import { useState, useEffect } from "react";
 import SearchField from "./Components/SearchField";
 import getCharacterPages from "./services/getCharacterPages";
+import Bookmark from "./Components/Bookmark";
 
 function App() {
   const [characters, setCharacters] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState({
+    response: [],
+    failed: true,
+  });
 
   const [bookmarks, setBookmarks] = useState([]);
 
@@ -17,8 +21,6 @@ function App() {
     );
 
     const checkForBookmark = bookmarks.includes(characterToAdd);
-
-    console.log("checkForBookmaks", checkForBookmark);
 
     if (checkForBookmark === false) {
       setBookmarks([...bookmarks, characterToAdd]);
@@ -35,7 +37,7 @@ function App() {
   };
 
   useEffect(() => {
-    getCharacterPages().then(chars => setCharacters(chars))
+    getCharacterPages().then((chars) => setCharacters(chars));
   }, []);
 
   const onCreateSearch = (searchValue) => {
@@ -43,38 +45,36 @@ function App() {
       char.name.toUpperCase().includes(searchValue.toUpperCase())
     );
 
-    setSearch(searchResponse);
+    if (searchResponse.length === 0) {
+      alert("search failed!");
+      setSearch({ failed: true, response: [] });
+    } else {
+      setSearch({ failed: false, response: searchResponse });
+    }
   };
 
-  return (
-    <AppWrapper>
-      <GlobalStyles />
+  const clearSearch = () => {
+    setSearch({ failed: true, response: [] });
+  };
+  const showAll = () => {
+    setSearch({ failed: false, response: [...characters] });
+  };
 
-      <Header>RICK AND MORTY</Header>
-      <SearchField onCreateSearch={onCreateSearch} />
-      {bookmarks.map((bookmark) => {
-        return (
-          <div
-            style={{
-              display: "flex",
-              backgroundColor: "rgba(100,100,100, 0.3)",
-              alignItems: "center",
-              width: "100%",
-              marginTop: "20px",
-            }}
-          >
-            <button
-              style={{ width: "10px", fontSize: "6px" }}
-              onClick={() => removeFromBookmark(bookmark.id)}
-            >
-              X
-            </button>
-            <p style={{ color: "white", fontSize: "11px" }}>{bookmark.name}</p>
-            <img src={bookmark.image} width="40px" alt="" />
-          </div>
-        );
-      })}
-      {search.map(({ image, name, status, species, location, origin, id }) => (
+  const bookmarksDisplay = bookmarks.map((bookmark) => {
+    return (
+      <Bookmark
+        name={bookmark.name}
+        image={bookmark.image}
+        id={bookmark.id}
+        key={bookmark.id}
+        removeFromBookmark={() => removeFromBookmark(bookmark.id)}
+      />
+    );
+  });
+
+  const SearchDisplay = () => {
+    const searchMap = search.response.map(
+      ({ image, name, status, species, location, origin, id }) => (
         <CharacterCard
           imgUrl={image}
           name={name}
@@ -85,7 +85,30 @@ function App() {
           addBookmark={() => addBookmark(id)}
           key={id}
         />
-      ))}
+      )
+    );
+
+    return searchMap;
+  };
+  return (
+    <AppWrapper>
+      <GlobalStyles />
+
+      <Header>RICK AND MORTY</Header>
+      {search.failed === true ? (
+        <h1 className="search__error">Please enter something</h1>
+      ) : (
+        ""
+      )}
+      <SearchField
+        onCreateSearch={onCreateSearch}
+        handleClearSearch={clearSearch}
+        onShowAll={showAll}
+      />
+
+      <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
+
+      <SearchDisplay />
     </AppWrapper>
   );
 }
@@ -95,6 +118,13 @@ export default App;
 const AppWrapper = styled.div`
   padding: 20px;
   height: 100vh;
+
+  .search__error {
+    font-size: 1.6rem;
+    color: white;
+    text-align: center;
+    text-shadow: 0px 0px 15px black;
+  }
 `;
 
 const Header = styled.div`
@@ -102,4 +132,12 @@ const Header = styled.div`
   color: #a3c259;
   font-size: 2.5rem;
   text-align: center;
+`;
+
+const BookmarksWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
 `;

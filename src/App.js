@@ -1,32 +1,25 @@
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components/macro";
 import CharacterCard from "./Components/CharacterCard";
-import getData from "./services/getData";
-import getCharacterPages from "./services/getCharacterPages";
 import { useState, useEffect } from "react";
 import SearchField from "./Components/SearchField";
+import getCharacterPages from "./services/getCharacterPages";
 
 function App() {
   const [characters, setCharacters] = useState([]);
   const [search, setSearch] = useState([]);
 
   useEffect(() => {
-    getData().then((data) => setCharacters(data.results));
-
-    console.log("CHAR PAGES", getCharacterPages());
+    getCharacterPages().then(chars => setCharacters(chars))
   }, []);
-  console.log(characters);
 
   const onCreateSearch = (searchValue) => {
     const searchResponse = characters.filter((char) =>
-      char.name.includes(searchValue)
+      char.name.toUpperCase().includes(searchValue.toUpperCase())
     );
-    console.log("########################### SEARCH RES", searchResponse);
 
     setSearch(searchResponse);
   };
-
-  console.log("CHAR PAGES", getCharacterPages());
 
   return (
     <AppWrapper>

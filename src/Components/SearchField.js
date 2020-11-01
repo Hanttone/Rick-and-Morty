@@ -23,11 +23,9 @@ export default function SearchField({
             placeholder="Search for character"
           />
         </label>
-        <div className="flex">
-          <button>Search</button>
-        </div>
       </form>
-      <div>
+      <div className="flex">
+        <button onClick={searchHandler}>Search</button>
         <button onClick={onShowAll}>Show all</button>
         <button onClick={handleClearSearch}>Clear Search</button>
       </div>
@@ -36,18 +34,21 @@ export default function SearchField({
 }
 
 const SearchWrapper = styled.div`
-  form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 
-    label {
-      padding: 0;
-      margin: 0;
+  label {
+    padding: 0;
+    margin: 0;
+
+    input {
+      width: 100%;
     }
   }
+
   button {
     padding: 5px;
     margin: 5px;

@@ -46,7 +46,7 @@ function App() {
     );
 
     if (searchResponse.length === 0) {
-      alert("search failed!");
+      alert("nothing found!");
       setSearch({ failed: true, response: [] });
     } else {
       setSearch({ failed: false, response: searchResponse });
@@ -105,7 +105,11 @@ function App() {
         handleClearSearch={clearSearch}
         onShowAll={showAll}
       />
-
+      {bookmarks.length === 0 ? (
+        <h1 className="search__error">no bookmarks yet</h1>
+      ) : (
+        <h1 className="search__error">Bookmarks:</h1>
+      )}
       <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
 
       <SearchDisplay />
@@ -124,6 +128,7 @@ const AppWrapper = styled.div`
     color: white;
     text-align: center;
     text-shadow: 0px 0px 15px black;
+    margin-top: 15px;
   }
 `;
 

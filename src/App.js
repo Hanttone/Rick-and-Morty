@@ -19,7 +19,7 @@ function App() {
 
   const onCreateSearch = (searchValue) => {
     const searchResponse = characters.filter((char) =>
-      char.name.includes(searchValue)
+      char.name.toLowerCase().includes(searchValue.toLowerCase())
     );
     console.log("########################### SEARCH RES", searchResponse);
 

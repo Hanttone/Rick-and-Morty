@@ -12,11 +12,20 @@ export default function CharacterCard({
   origin,
   id,
 }) {
+  let deadOrAlive = "";
+  if (status.includes("Dead")) {
+    deadOrAlive = "red";
+  } else if (status.includes("Alive")) {
+    deadOrAlive = "green";
+  } else {
+    deadOrAlive = "yellow";
+  }
+
   return (
     <CharacterCardWrapper>
       <div className="imageContainer">
         <img src={imgUrl} alt="" />
-        <h2>
+        <h2 style={{ color: `${deadOrAlive}` }}>
           {status} - {species}
         </h2>
       </div>

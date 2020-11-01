@@ -90,30 +90,35 @@ function App() {
 
     return searchMap;
   };
+
+  // JSX START ##
+
   return (
-    <AppWrapper>
+    <>
       <GlobalStyles />
-
-      <Header>RICK AND MORTY</Header>
-      {search.failed === true ? (
-        <h1 className="search__error">Please enter something</h1>
-      ) : (
-        ""
-      )}
-      <SearchField
-        onCreateSearch={onCreateSearch}
-        handleClearSearch={clearSearch}
-        onShowAll={showAll}
-      />
-      {bookmarks.length === 0 ? (
-        <h1 className="search__error">no bookmarks yet</h1>
-      ) : (
-        <h1 className="search__error">Bookmarks:</h1>
-      )}
-      <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
-
-      <SearchDisplay />
-    </AppWrapper>
+      <StickyHeader>
+        <Header>RICK AND MORTY</Header>
+        {search.failed === true ? (
+          <h1 className="search__error">Please enter something</h1>
+        ) : (
+          ""
+        )}
+        <SearchField
+          onCreateSearch={onCreateSearch}
+          handleClearSearch={clearSearch}
+          onShowAll={showAll}
+        />
+        {bookmarks.length === 0 ? (
+          <h1 className="search__error">no bookmarks yet</h1>
+        ) : (
+          <h1 className="search__error">Bookmarks:</h1>
+        )}
+        <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
+      </StickyHeader>
+      <AppWrapper>
+        <SearchDisplay />
+      </AppWrapper>
+    </>
   );
 }
 
@@ -121,7 +126,17 @@ export default App;
 
 const AppWrapper = styled.div`
   padding: 20px;
-  height: 100vh;
+  height: auto;
+  position: relative;
+`;
+
+const StickyHeader = styled.div`
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  background-image: linear-gradient(black, transparent);
 
   .search__error {
     font-size: 1.6rem;

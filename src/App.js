@@ -5,6 +5,12 @@ import { useState, useEffect } from "react";
 import SearchField from "./Components/SearchField";
 import getCharacterPages from "./services/getCharacterPages";
 import Bookmark from "./Components/Bookmark";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink
+} from "react-router-dom";
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -95,29 +101,40 @@ function App() {
 
   return (
     <>
-      <GlobalStyles />
-      <StickyHeader>
-        <Header>RICK AND MORTY</Header>
-        {search.failed === true ? (
-          <h1 className="search__error">Please enter something</h1>
-        ) : (
-          ""
-        )}
-        <SearchField
-          onCreateSearch={onCreateSearch}
-          handleClearSearch={clearSearch}
-          onShowAll={showAll}
-        />
-        {bookmarks.length === 0 ? (
-          <h1 className="search__error">no bookmarks yet</h1>
-        ) : (
-          <h1 className="search__error">Bookmarks:</h1>
-        )}
-        <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
-      </StickyHeader>
-      <AppWrapper>
-        <SearchDisplay />
-      </AppWrapper>
+    <Router>
+        <GlobalStyles />
+
+        <Switch>
+        <StickyHeader>
+            <Route path="/search">
+                <Header>RICK AND MORTY</Header>
+                {search.failed === true ? (
+                  <h1 className="search__error">Please enter something</h1>
+                ) : (
+                  ""
+                )}
+                <SearchField
+                  onCreateSearch={onCreateSearch}
+                  handleClearSearch={clearSearch}
+                  onShowAll={showAll}
+                />
+                
+            </Route>
+            <Route path="/bookmarks">
+              {bookmarks.length === 0 ? (
+                <h1 className="search__error">no bookmarks yet</h1>
+              ) : (
+                <h1 className="search__error">Bookmarks:</h1>
+              )}
+              <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
+            </Route>
+          </StickyHeader>
+          <AppWrapper>
+              <SearchDisplay />
+          </AppWrapper>
+          
+        </Switch>
+    </Router>
     </>
   );
 }

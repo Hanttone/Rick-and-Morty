@@ -67,7 +67,7 @@ grid-gap: 10px;
   img {
     margin-bottom: 3%;
     width: 130px;
-    border-radius: 5px 0px;
+    border-radius: 15px 0px;
   }
 
   button {

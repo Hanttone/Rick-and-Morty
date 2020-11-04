@@ -60,30 +60,7 @@ function App() {
   return (
     <>
       <Router>
-        <nav className="navigation">
-          <NavLink
-            activeClassName="navigation--link__active"
-            className="navigation--link"
-            exact
-            to="/"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            activeClassName="navigation--link__active"
-            className="navigation--link"
-            to="/search"
-          >
-            Search
-          </NavLink>
-          <NavLink
-            activeClassName="navigation--link__active"
-            className="navigation--link"
-            to="/bookmarks"
-          >
-            Bookmarks
-          </NavLink>
-        </nav>
+        
         <GlobalStyles />
         <AppWrapper>
           <Switch>
@@ -122,6 +99,29 @@ function App() {
               <Bookmark characterInfo={characters} bookmarksLog={bookmarkIds}/>
             </Route>
           </Switch>
+          <FooterStyled>
+              <nav>
+              <NavLinkStyled
+                activeClassName="active"
+                exact
+                to="/"
+              >
+                Home
+              </NavLinkStyled>
+              <NavLinkStyled
+                activeClassName="active"
+                to="/search"
+              >
+                Search
+              </NavLinkStyled>
+              <NavLinkStyled
+                activeClassName="active"
+                to="/bookmarks"
+              >
+                Bookmarks
+              </NavLinkStyled>
+            </nav>
+        </FooterStyled>
         </AppWrapper>
       </Router>
     </>
@@ -132,8 +132,10 @@ export default App;
 
 const AppWrapper = styled.div`
   padding: 20px;
-  height: auto;
+  height: 100vh;
   position: relative;
+  display: flex;
+  justify-content: center;
 `;
 
 const StickyHeader = styled.div`
@@ -160,10 +162,33 @@ const Header = styled.div`
   text-align: center;
 `;
 
-const BookmarksWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
+const FooterStyled = styled.footer`
+position: fixed;
+bottom: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background-color: hsla(263, 79%, 33%, 0.5);
+
+  nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    height: 8vh;
+  }
+`;
+
+
+const NavLinkStyled = styled(NavLink)`
+color: white;
+text-decoration: none;
+padding: 8px;
+background-color: hsla(263, 79%, 33%, 0.5);
+
+&.active {
+background-color: #a3c259;
+color: black;
+border-radius: 5px;
+}
 `;

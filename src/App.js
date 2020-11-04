@@ -12,6 +12,7 @@ import {
   NavLink,
 } from "react-router-dom";
 import Header from "./Components/Header"
+import {CSSTransition, TransitionGroup } from "react-transition-group";
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -155,7 +156,7 @@ z-index: 100;
 
   nav {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     width: 80%;
     height: 8vh;
@@ -170,8 +171,8 @@ padding: 8px;
 font-weight: 600;
 
 &.active {
-background-color: #a3c259;
-color: black;
+background-color: hsla(263, 79%, 33%, 0.8);
+color: white;
 border-radius: 5px;
 font-weight: 600;
 }

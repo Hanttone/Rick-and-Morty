@@ -1,71 +1,87 @@
 import styled from "styled-components/macro";
 import { useState } from 'react';
 
-export default function Bookmark() {
+export default function Bookmark({ characterInfo, bookmarksLog}) {
 
-  /*const [bookmarklog, setBookmarklog] = useState([]
-    )
+  const bookMarksToShow = []
+  bookmarksLog.map(bookmark =>
+  bookMarksToShow.push(...characterInfo.filter(char => char.id === bookmark)))
+  console.log(bookMarksToShow)
+
+
+    
   
-    function handleChange() {
-      setBookmarklog(bookmarInput)
-    }*/
 
   /* const removeFromBookmark = (cardId) => {
     const updatedBookmarks = bookmarInput.filter(
     (bookmark) => bookmark.id !== cardId);
     onBookmarkDelete(updatedBookmarks); 
-  };*/
+  };
 
-  return ( 
-    <div>
-    
-    <BookmarkItem>
-      
-    </BookmarkItem>
-    </div>
-  );
-}
-
-const BookmarkItem = styled.div`
-  background-color: hsla(263, 79%, 33%, 0.8);
-  position: relative;
-  padding: 5px;
-
-  margin: 20px;
-  color: white;
-
-  .wrapper {
-    max-width: 180px;
-  }
-
-  button {
-    position: absolute;
-    right: 0;
-
-    top: 0;
-
-    padding: 5px;
-    font-size: 1rem;
-    margin: 5px;
-    background-color: #a3c259;
-    border: 0;
-    -webkit-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.5);
-  }
-`;
-
-/*
 {bookmarInput.length === 0 ? (
     <h1 className="search__error">no bookmarks yet</h1>
     ) : (
       <h1 className="search__error">Bookmarks:</h1>
     )}
 
-{bookmarInput.map(bookmark => { 
-        return (
-        <div className="wrapper">
-        <img src={bookmarInput.image} width="70px" alt="" />
-        <p>{bookmarInput.name}</p>
-        <button>X</button>)
-        </div>)})} */
+ */
+
+  return ( 
+      <BookmarkItem>
+        {bookMarksToShow.map(bookmark => {
+            return (
+              <div>
+                <img src={bookmark.image} alt="" />
+                <p>{bookmark.name}</p>
+                <button>✘</button>
+              </div>)})}
+      </BookmarkItem>
+  );
+}
+
+const BookmarkItem = styled.div`
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-gap: 10px;
+
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: relative;
+    background-color: hsla(263, 79%, 33%, 0.8);
+    width: 100%;
+    padding: 2%;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+  p {
+    width: fit-content;
+    text-align: center;
+  }
+
+  img {
+    margin-bottom: 3%;
+    width: 130px;
+    border-radius: 5px 0px;
+  }
+
+  button {
+    position: absolute;
+    left: 80%;
+    top: 0;
+
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 0px 0px 5px 5px;
+
+    background-color: #a3c259;
+    border: 0;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+  }
+`;
+

@@ -9,7 +9,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink
+  NavLink,
 } from "react-router-dom";
 
 function App() {
@@ -19,13 +19,14 @@ function App() {
     failed: true,
   });
 
-  const [bookmarks, setBookmarks] = useState([]);
+  const [bookmarkIds, setBookmarks] = useState([]);
 
-  function handleBookmarkChange(input) {
-    setBookmarks([...bookmarks, input]);
+  function handleBookmarkChange(bookmarkId) {
+    if (!bookmarkIds.includes(bookmarkId)) {
+    setBookmarks([...bookmarkIds, bookmarkId]);
+    }
   }
-
-
+ 
   /*function handleBookmarkDelete(input) {
     setBookmarks([...bookmarks.splice(0, input.id), ...bookmarks.splice(input.id+1)])
   } */
@@ -58,58 +59,71 @@ function App() {
 
   return (
     <>
-    <Router>
-    <nav className="navigation">
-            <NavLink
-              activeClassName="navigation--link__active"
-              className="navigation--link"
-              exact
-              to="/"
-            >
-              Home
-            </NavLink>
-            <NavLink
-              activeClassName="navigation--link__active"
-              className="navigation--link"
-              to="/search"
-            >
-              Search
-            </NavLink>
-            <NavLink
-              activeClassName="navigation--link__active"
-              className="navigation--link"
-              to="/bookmarks"
-            >
-              Bookmarks
-            </NavLink>
-          </nav>
+      <Router>
+        <nav className="navigation">
+          <NavLink
+            activeClassName="navigation--link__active"
+            className="navigation--link"
+            exact
+            to="/"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            activeClassName="navigation--link__active"
+            className="navigation--link"
+            to="/search"
+          >
+            Search
+          </NavLink>
+          <NavLink
+            activeClassName="navigation--link__active"
+            className="navigation--link"
+            to="/bookmarks"
+          >
+            Bookmarks
+          </NavLink>
+        </nav>
         <GlobalStyles />
         <AppWrapper>
-        <Switch>
-          <Route path="/search">
-               <StickyHeader>
+          <Switch>
+            <Route path="/search">
+              <StickyHeader>
                 <Header>RICK AND MORTY</Header>
                 {search.failed === true ? (
                   <h1 className="search__error">Please enter something</h1>
                 ) : (
                   ""
                 )}
-                <SearchField onCreateSearch={onCreateSearch} handleClearSearch={clearSearch} onShowAll={showAll} />
+                <SearchField
+                  onCreateSearch={onCreateSearch}
+                  handleClearSearch={clearSearch}
+                  onShowAll={showAll}
+                />
 
-                {search.response.map(({ image, name, status, species, location, origin, id }) => (
-                <CharacterCard imgUrl={image} name={name} status={status} species={species} location={location.name} origin={origin.name}
-                 key={id} id={id} bookmarks={bookmarks} onBookmarkChange={handleBookmarkChange}/>))}
-
-             </StickyHeader>
+                {search.response.map(
+                  ({ image, name, status, species, location, origin, id }) => (
+                    <CharacterCard
+                      imgUrl={image}
+                      name={name}
+                      status={status}
+                      species={species}
+                      location={location.name}
+                      origin={origin.name}
+                      key={id}
+                      id={id}
+                      onBookmarkChange={handleBookmarkChange}
+                    />
+                  )
+                )}
+              </StickyHeader>
             </Route>
             <Route path="/bookmarks">
+              <Bookmark characterInfo={characters} bookmarksLog={bookmarkIds}/>
             </Route>
-          </Switch>    
-              
-          </AppWrapper>
-          
-        
-    </Router>
+          </Switch>
+        </AppWrapper>
+      </Router>
     </>
   );
 }

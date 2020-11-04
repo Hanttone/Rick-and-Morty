@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
-import { useState } from "react";
 
 export default function CharacterCard({
   imgUrl,
@@ -12,11 +11,12 @@ export default function CharacterCard({
   origin,
   id,
   onBookmarkChange,
-}) 
+}) {
 
+  function handleClick(id) {
+    onBookmarkChange(id)
+};
 
-
-{
   let deadOrAlive = "";
   if (status.includes("Dead")) {
     deadOrAlive = "red";
@@ -26,30 +26,12 @@ export default function CharacterCard({
     deadOrAlive = "yellow";
   }
 
-  const [bookmarklog, setBookmarklog] = useState([])
-
-
-  function handleClick() {
-    //const characterToAdd = characterInfo.find((character) => character.id === cardId); 
-   // const checkForBookmark = bookmarks.includes(characterToAdd);
-
-    //if (checkForBookmark === false) {
-      setBookmarklog(id);
-      //sendInputToApp()
-  };
-
-  console.log(bookmarklog)
-
-  function sendInputToApp() {
-      onBookmarkChange(bookmarklog);
-      setBookmarklog('');
-  }
 
   return (
     <CharacterCardWrapper>
       <div className="imageContainer">
         <img src={imgUrl} alt="" />
-        <h2 style={{ color: `${deadOrAlive}` }}>
+        <h2>
           {status} - {species}
         </h2>
       </div>
@@ -65,7 +47,7 @@ export default function CharacterCard({
           <span>{id}</span>
         </p>
       </div>
-      <button onClick={handleClick}>Bookmark +</button>
+      <button onClick={() => handleClick(id)}>Bookmark +</button>
     </CharacterCardWrapper>
   );
 }

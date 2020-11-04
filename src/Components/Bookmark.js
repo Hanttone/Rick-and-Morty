@@ -1,11 +1,37 @@
 import styled from "styled-components/macro";
+import { useState } from 'react';
 
-export default function Bookmark({ image, name, id, removeFromBookmark }) {
+export default function Bookmark({ image, name, id, characterInfo, addBookmark}) {
+
+  const [bookmarks, setBookmarks] = useState([]);
+
+  const addBookmark = (cardId) => {
+    const characterToAdd = characterInfo.find(
+      (character) => character.id === cardId
+    );
+
+    const checkForBookmark = bookmarks.includes(characterToAdd);
+
+    if (checkForBookmark === false) {
+      setBookmarks([...bookmarks, characterToAdd]);
+    } else {
+    }
+  };
+
+
+  const removeFromBookmark = (cardId) => {
+    const updatedBookmarks = bookmarks.filter(
+      (bookmark) => bookmark.id !== cardId
+    );
+
+    setBookmarks(updatedBookmarks);
+  };
+
   return (
     <BookmarkItem>
       <div className="wrapper">
-        <img src={image} width="70px" alt="" />
-        <p>{name}</p>
+        <img src={bookmarks.image} width="70px" alt="" />
+        <p>{bookmarks.name}</p>
       </div>
       <button onClick={removeFromBookmark}>X</button>
     </BookmarkItem>

@@ -19,29 +19,6 @@ function App() {
     failed: true,
   });
 
-  const [bookmarks, setBookmarks] = useState([]);
-
-  const addBookmark = (cardId) => {
-    const characterToAdd = characters.find(
-      (character) => character.id === cardId
-    );
-
-    const checkForBookmark = bookmarks.includes(characterToAdd);
-
-    if (checkForBookmark === false) {
-      setBookmarks([...bookmarks, characterToAdd]);
-    } else {
-    }
-  };
-
-  const removeFromBookmark = (cardId) => {
-    const updatedBookmarks = bookmarks.filter(
-      (bookmark) => bookmark.id !== cardId
-    );
-
-    setBookmarks(updatedBookmarks);
-  };
-
   useEffect(() => {
     getCharacterPages().then((chars) => setCharacters(chars));
   }, []);
@@ -66,18 +43,6 @@ function App() {
     setSearch({ failed: false, response: [...characters] });
   };
 
-  const bookmarksDisplay = bookmarks.map((bookmark) => {
-    return (
-      <Bookmark
-        name={bookmark.name}
-        image={bookmark.image}
-        id={bookmark.id}
-        key={bookmark.id}
-        removeFromBookmark={() => removeFromBookmark(bookmark.id)}
-      />
-    );
-  });
-
   const SearchDisplay = () => {
     const searchMap = search.response.map(
       ({ image, name, status, species, location, origin, id }) => (
@@ -88,7 +53,7 @@ function App() {
           species={species}
           location={location.name}
           origin={origin.name}
-          addBookmark={() => addBookmark(id)}
+          bookmarkAdd={bookmarkAdd}
           key={id}
         />
       )
@@ -97,43 +62,65 @@ function App() {
     return searchMap;
   };
 
+  function bookmarkAdd(event) {
+    return event
+  }
+
   // JSX START ##
 
   return (
     <>
     <Router>
-        <GlobalStyles />
-
-        <Switch>
-        <StickyHeader>
-            <Route path="/search">
-                <Header>RICK AND MORTY</Header>
-                {search.failed === true ? (
-                  <h1 className="search__error">Please enter something</h1>
-                ) : (
-                  ""
-                )}
-                <SearchField
-                  onCreateSearch={onCreateSearch}
-                  handleClearSearch={clearSearch}
-                  onShowAll={showAll}
-                />
-                
-            </Route>
-            <Route path="/bookmarks">
-              {bookmarks.length === 0 ? (
-                <h1 className="search__error">no bookmarks yet</h1>
-              ) : (
-                <h1 className="search__error">Bookmarks:</h1>
-              )}
-              <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
-            </Route>
-          </StickyHeader>
+        <nav className="navigation">
+            <NavLink
+              activeClassName="navigation--link__active"
+              className="navigation--link"
+              exact
+              to="/"
+            >
+              Home
+            </NavLink>
+            <NavLink
+              activeClassName="navigation--link__active"
+              className="navigation--link"
+              to="/search"
+            >
+              Search
+            </NavLink>
+            <NavLink
+              activeClassName="navigation--link__active"
+              className="navigation--link"
+              to="/bookmarks"
+            >
+              Bookmarks
+            </NavLink>
+          </nav>
+        <GlobalStyles />         
           <AppWrapper>
-              <SearchDisplay />
+            <Switch>
+               <Route path="/search">
+                  <StickyHeader>
+                    <Header>RICK AND MORTY</Header>
+                    {search.failed === true ? (
+                      <h1 className="search__error">Please enter something</h1>
+                    ) : (
+                      ""
+                    )}
+                    <SearchField onCreateSearch={onCreateSearch} handleClearSearch={clearSearch} onShowAll={showAll}/>
+                 </StickyHeader>
+                <SearchDisplay />
+              </Route>
+                  <Route path="/bookmarks">
+                  {bookmarks.length === 0 ? (
+                    <h1 className="search__error">no bookmarks yet</h1>
+                  ) : (
+                    <h1 className="search__error">Bookmarks:</h1>
+                  )}
+                  <Bookmark key={bookmarks.id} charachterInfo={characters} addBookmark={bookmarkAdd}/>
+                </Route>
+              </Switch>
           </AppWrapper>
-          
-        </Switch>
+        
     </Router>
     </>
   );

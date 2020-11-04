@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 
 export default function CharacterCard({
-  addBookmark,
+  bookmarkAdd,
   imgUrl,
   name,
   status,
@@ -19,6 +19,10 @@ export default function CharacterCard({
     deadOrAlive = "green";
   } else {
     deadOrAlive = "yellow";
+  }
+
+  function handleClick(event) {
+    bookmarkAdd(event);
   }
 
   return (
@@ -40,7 +44,7 @@ export default function CharacterCard({
           <span>{origin}</span>
         </p>
       </div>
-      <button onClick={addBookmark}>Bookmark +</button>
+      <button onClick={handleClick}>Bookmark +</button>
     </CharacterCardWrapper>
   );
 }

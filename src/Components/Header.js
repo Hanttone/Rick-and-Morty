@@ -1,4 +1,4 @@
-import styled from "styled-components/macro"
+import styled, { keyframes } from "styled-components/macro"
 
 export default function Header () {
     return (
@@ -12,15 +12,19 @@ export default function Header () {
     )
 }
 
+const slowTextAppear = keyframes`
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+`;
 
 const HeaderWrapper = styled.div`
 
 h1 {
   height: 53px;
   color: #a3c259;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   text-align: center;
-  margin-bottom: 10vh;
+  margin-bottom: 6vh;
   font-weight: 500;
 }
 
@@ -33,5 +37,8 @@ p {
     opacity: 1;
     z-index: 101;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    animation-delay: 10s;
+    animation: ${slowTextAppear} 3s ease-in;
 }
 `;
+

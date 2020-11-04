@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components';
+import {createGlobalStyle, keyframes} from 'styled-components';
 
 
 export default createGlobalStyle`
@@ -17,6 +17,7 @@ export default createGlobalStyle`
         background-attachment: fixed;
         height: 100vh;
         width: 100%;
+        transition: ease-in;
     }
 
 `;

@@ -15,10 +15,7 @@ import Header from "./Components/Header"
 
 function App() {
   const [characters, setCharacters] = useState([]);
-  const [search, setSearch] = useState({
-    response: [],
-    failed: true,
-  });
+  const [search, setSearch] = useState({ response: [], failed: true});
 
   useEffect(() => {
     getCharacterPages().then((chars) => setCharacters(chars));
@@ -34,9 +31,9 @@ function App() {
 
   function handleDeleteBookmark(indexDelete) {
     const indexToDelete = bookmarkIds.map(bookmark => bookmark).indexOf(indexDelete);
-    return setBookmarks([
-      ...bookmarkIds.splice(0, indexToDelete),
-    ...bookmarkIds.splice(indexToDelete + 1)])
+    const secondPart = bookmarkIds.splice(indexToDelete + 1)
+    const firstPart = bookmarkIds.splice(0, indexToDelete)
+    setBookmarks([...firstPart, ...secondPart])
   }
 
   function onCreateSearch(searchValue) {
@@ -158,7 +155,7 @@ z-index: 100;
 
   nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     width: 80%;
     height: 8vh;

@@ -7,17 +7,15 @@ export default function Bookmark({ characterInfo, bookmarksLog, onDeleteBookmark
   bookMarksToShow.push(...characterInfo.filter(char => char.id === bookmark)))
 
   function handleClick(id) {
-    
-    onDeleteBookmark(id)
+    onDeleteBookmark(id);
   }
+
 
   return ( 
       <BookmarkItem>
         {bookMarksToShow.length === 0 ? (
-    <h1 className="search__error">No bookmarks yet</h1>
-    ) : (
-      <h1 className="search__error">Bookmarks:</h1>
-    )}
+    <h1 className="search__error">No bookmarks yet</h1>) : 
+    (<h1 className="search__error">Bookmarks:</h1>)}
           {bookMarksToShow.map((bookmark) => {
               return (
                 <div>
@@ -80,7 +78,6 @@ button {
   padding: 5px;
   font-size: 1rem;
   border-radius: 0px 0px 5px 5px;
-
   background-color: #a3c259;
   border: 0;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);

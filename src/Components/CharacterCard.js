@@ -93,10 +93,12 @@ const CharacterCardWrapper = styled.div`
     border-radius: 20px 0 0 0;
     object-fit: cover;
   }
+
   div.characterCardContent {
     //grid-column: 1;
     align-self: center;
   }
+
   p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -105,6 +107,7 @@ const CharacterCardWrapper = styled.div`
     color: #b0c384;
     font-size: 0.6rem;
   }
+  
   span {
     font-weight: bold;
     font-size: 0.9rem;

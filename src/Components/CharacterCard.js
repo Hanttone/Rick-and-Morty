@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components/macro";
-import PropTypes from "prop-types";
 
 export default function CharacterCard({
   imgUrl,
@@ -16,16 +15,6 @@ export default function CharacterCard({
   function handleClick(id) {
     onBookmarkChange(id)
 };
-
-  let deadOrAlive = "";
-  if (status.includes("Dead")) {
-    deadOrAlive = "red";
-  } else if (status.includes("Alive")) {
-    deadOrAlive = "green";
-  } else {
-    deadOrAlive = "yellow";
-  }
-
 
   return (
     <CharacterCardWrapper>
@@ -65,9 +54,9 @@ const CharacterCardWrapper = styled.div`
   border-radius: 20px;
   margin-top: 20px;
 
-  -webkit-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
-  -moz-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
-  box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0px 0px 27px 3px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0px 0px 27px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 0px 27px 3px rgba(0, 0, 0, 0.7);
 
   div.imageContainer {
     position: relative;

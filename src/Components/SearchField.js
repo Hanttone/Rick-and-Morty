@@ -24,8 +24,7 @@ export default function SearchField({
           />
         </label>
       </form>
-      <div className="flex">
-        <button onClick={searchHandler}>Search</button>
+      <div>
         <button onClick={onShowAll}>Show all</button>
         <button onClick={handleClearSearch}>Clear Search</button>
       </div>
@@ -39,6 +38,10 @@ const SearchWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  position: fixed;
+  top: 2vh;
+  width: 90%;
+  z-index: 999;
 
   label {
     padding: 0;
@@ -52,15 +55,16 @@ const SearchWrapper = styled.div`
   button {
     padding: 5px;
     margin: 5px;
+    border-radius: 5px;
     background-color: #a3c259;
     border: 0;
-    -webkit-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.5);
   }
-  .flex {
+
+  div {
     display: flex;
+    justify-content: center;
   }
+
   input {
     height: 30px;
     padding: 10px;

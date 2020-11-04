@@ -11,6 +11,7 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
+import Header from "./Components/Header"
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -19,6 +20,10 @@ function App() {
     failed: true,
   });
 
+  useEffect(() => {
+    getCharacterPages().then((chars) => setCharacters(chars));
+  }, []);
+
   const [bookmarkIds, setBookmarks] = useState([]);
 
   function handleBookmarkChange(bookmarkId) {
@@ -26,16 +31,15 @@ function App() {
     setBookmarks([...bookmarkIds, bookmarkId]);
     }
   }
- 
-  /*function handleBookmarkDelete(input) {
-    setBookmarks([...bookmarks.splice(0, input.id), ...bookmarks.splice(input.id+1)])
-  } */
 
-  useEffect(() => {
-    getCharacterPages().then((chars) => setCharacters(chars));
-  }, []);
+  function handleDeleteBookmark(indexDelete) {
+    const indexToDelete = bookmarkIds.map(bookmark => bookmark).indexOf(indexDelete);
+    return setBookmarks([
+      ...bookmarkIds.splice(0, indexToDelete),
+    ...bookmarkIds.splice(indexToDelete + 1)])
+  }
 
-  const onCreateSearch = (searchValue) => {
+  function onCreateSearch(searchValue) {
     const searchResponse = characters.filter((char) =>
       char.name.toUpperCase().includes(searchValue.toUpperCase())
     );
@@ -55,29 +59,21 @@ function App() {
     setSearch({ failed: false, response: [...characters] });
   };
 
-  // JSX START ##
-
   return (
     <>
       <Router>
-        
         <GlobalStyles />
         <AppWrapper>
           <Switch>
+            <Route exact path="/">
+              <Header></Header>
+            </Route>
             <Route path="/search">
-              <StickyHeader>
-                <Header>RICK AND MORTY</Header>
-                {search.failed === true ? (
-                  <h1 className="search__error">Please enter something</h1>
-                ) : (
-                  ""
-                )}
                 <SearchField
                   onCreateSearch={onCreateSearch}
                   handleClearSearch={clearSearch}
-                  onShowAll={showAll}
-                />
-
+                  onShowAll={showAll} />
+                <CharCardWrapper>
                 {search.response.map(
                   ({ image, name, status, species, location, origin, id }) => (
                     <CharacterCard
@@ -93,10 +89,10 @@ function App() {
                     />
                   )
                 )}
-              </StickyHeader>
+              </CharCardWrapper>
             </Route>
             <Route path="/bookmarks">
-              <Bookmark characterInfo={characters} bookmarksLog={bookmarkIds}/>
+                <Bookmark characterInfo={characters} bookmarksLog={bookmarkIds} onDeleteBookmark={handleDeleteBookmark}/>
             </Route>
           </Switch>
           <FooterStyled>
@@ -138,28 +134,17 @@ const AppWrapper = styled.div`
   justify-content: center;
 `;
 
-const StickyHeader = styled.div`
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 0;
+const CharCardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
   width: 100%;
-  z-index: 999;
-  background-image: linear-gradient(black, transparent);
-
-  .search__error {
-    font-size: 1.6rem;
-    color: white;
-    text-align: center;
-    text-shadow: 0px 0px 15px black;
-    margin-top: 15px;
-  }
-`;
-
-const Header = styled.div`
-  height: 53px;
-  color: #a3c259;
-  font-size: 2.5rem;
-  text-align: center;
+  position: fixed;
+  bottom: 8vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  padding-left: 5%;
+  padding-right: 5%;
 `;
 
 const FooterStyled = styled.footer`
@@ -169,6 +154,7 @@ width: 100%;
 display: flex;
 justify-content: center;
 background-color: hsla(263, 79%, 33%, 0.5);
+z-index: 100;
 
   nav {
     display: flex;
@@ -184,11 +170,12 @@ const NavLinkStyled = styled(NavLink)`
 color: white;
 text-decoration: none;
 padding: 8px;
-background-color: hsla(263, 79%, 33%, 0.5);
+font-weight: 600;
 
 &.active {
 background-color: #a3c259;
 color: black;
 border-radius: 5px;
+font-weight: 600;
 }
 `;

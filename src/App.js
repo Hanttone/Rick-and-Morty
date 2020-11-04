@@ -19,6 +19,17 @@ function App() {
     failed: true,
   });
 
+  const [bookmarks, setBookmarks] = useState([]);
+
+  function handleBookmarkChange(input) {
+    setBookmarks([...bookmarks, input]);
+  }
+
+
+  /*function handleBookmarkDelete(input) {
+    setBookmarks([...bookmarks.splice(0, input.id), ...bookmarks.splice(input.id+1)])
+  } */
+
   useEffect(() => {
     getCharacterPages().then((chars) => setCharacters(chars));
   }, []);
@@ -43,35 +54,12 @@ function App() {
     setSearch({ failed: false, response: [...characters] });
   };
 
-  const SearchDisplay = () => {
-    const searchMap = search.response.map(
-      ({ image, name, status, species, location, origin, id }) => (
-        <CharacterCard
-          imgUrl={image}
-          name={name}
-          status={status}
-          species={species}
-          location={location.name}
-          origin={origin.name}
-          bookmarkAdd={bookmarkAdd}
-          key={id}
-        />
-      )
-    );
-
-    return searchMap;
-  };
-
-  function bookmarkAdd(event) {
-    return event
-  }
-
   // JSX START ##
 
   return (
     <>
     <Router>
-        <nav className="navigation">
+    <nav className="navigation">
             <NavLink
               activeClassName="navigation--link__active"
               className="navigation--link"
@@ -95,31 +83,31 @@ function App() {
               Bookmarks
             </NavLink>
           </nav>
-        <GlobalStyles />         
-          <AppWrapper>
-            <Switch>
-               <Route path="/search">
-                  <StickyHeader>
-                    <Header>RICK AND MORTY</Header>
-                    {search.failed === true ? (
-                      <h1 className="search__error">Please enter something</h1>
-                    ) : (
-                      ""
-                    )}
-                    <SearchField onCreateSearch={onCreateSearch} handleClearSearch={clearSearch} onShowAll={showAll}/>
-                 </StickyHeader>
-                <SearchDisplay />
-              </Route>
-                  <Route path="/bookmarks">
-                  {bookmarks.length === 0 ? (
-                    <h1 className="search__error">no bookmarks yet</h1>
-                  ) : (
-                    <h1 className="search__error">Bookmarks:</h1>
-                  )}
-                  <Bookmark key={bookmarks.id} charachterInfo={characters} addBookmark={bookmarkAdd}/>
-                </Route>
-              </Switch>
+        <GlobalStyles />
+        <AppWrapper>
+        <Switch>
+          <Route path="/search">
+               <StickyHeader>
+                <Header>RICK AND MORTY</Header>
+                {search.failed === true ? (
+                  <h1 className="search__error">Please enter something</h1>
+                ) : (
+                  ""
+                )}
+                <SearchField onCreateSearch={onCreateSearch} handleClearSearch={clearSearch} onShowAll={showAll} />
+
+                {search.response.map(({ image, name, status, species, location, origin, id }) => (
+                <CharacterCard imgUrl={image} name={name} status={status} species={species} location={location.name} origin={origin.name}
+                 key={id} id={id} bookmarks={bookmarks} onBookmarkChange={handleBookmarkChange}/>))}
+
+             </StickyHeader>
+            </Route>
+            <Route path="/bookmarks">
+            </Route>
+          </Switch>    
+              
           </AppWrapper>
+          
         
     </Router>
     </>

@@ -1,40 +1,28 @@
 import styled from "styled-components/macro";
 import { useState } from 'react';
 
-export default function Bookmark({ image, name, id, characterInfo, addBookmark}) {
+export default function Bookmark() {
 
-  const [bookmarks, setBookmarks] = useState([]);
+  /*const [bookmarklog, setBookmarklog] = useState([]
+    )
+  
+    function handleChange() {
+      setBookmarklog(bookmarInput)
+    }*/
 
-  const addBookmark = (cardId) => {
-    const characterToAdd = characterInfo.find(
-      (character) => character.id === cardId
-    );
+  /* const removeFromBookmark = (cardId) => {
+    const updatedBookmarks = bookmarInput.filter(
+    (bookmark) => bookmark.id !== cardId);
+    onBookmarkDelete(updatedBookmarks); 
+  };*/
 
-    const checkForBookmark = bookmarks.includes(characterToAdd);
-
-    if (checkForBookmark === false) {
-      setBookmarks([...bookmarks, characterToAdd]);
-    } else {
-    }
-  };
-
-
-  const removeFromBookmark = (cardId) => {
-    const updatedBookmarks = bookmarks.filter(
-      (bookmark) => bookmark.id !== cardId
-    );
-
-    setBookmarks(updatedBookmarks);
-  };
-
-  return (
+  return ( 
+    <div>
+    
     <BookmarkItem>
-      <div className="wrapper">
-        <img src={bookmarks.image} width="70px" alt="" />
-        <p>{bookmarks.name}</p>
-      </div>
-      <button onClick={removeFromBookmark}>X</button>
+      
     </BookmarkItem>
+    </div>
   );
 }
 
@@ -66,3 +54,18 @@ const BookmarkItem = styled.div`
     box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.5);
   }
 `;
+
+/*
+{bookmarInput.length === 0 ? (
+    <h1 className="search__error">no bookmarks yet</h1>
+    ) : (
+      <h1 className="search__error">Bookmarks:</h1>
+    )}
+
+{bookmarInput.map(bookmark => { 
+        return (
+        <div className="wrapper">
+        <img src={bookmarInput.image} width="70px" alt="" />
+        <p>{bookmarInput.name}</p>
+        <button>X</button>)
+        </div>)})} */

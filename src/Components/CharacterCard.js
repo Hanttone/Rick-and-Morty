@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
 export default function CharacterCard({
-  bookmarkAdd,
   imgUrl,
   name,
   status,
@@ -11,7 +11,12 @@ export default function CharacterCard({
   location,
   origin,
   id,
-}) {
+  onBookmarkChange,
+}) 
+
+
+
+{
   let deadOrAlive = "";
   if (status.includes("Dead")) {
     deadOrAlive = "red";
@@ -21,8 +26,23 @@ export default function CharacterCard({
     deadOrAlive = "yellow";
   }
 
-  function handleClick(event) {
-    bookmarkAdd(event);
+  const [bookmarklog, setBookmarklog] = useState([])
+
+
+  function handleClick() {
+    //const characterToAdd = characterInfo.find((character) => character.id === cardId); 
+   // const checkForBookmark = bookmarks.includes(characterToAdd);
+
+    //if (checkForBookmark === false) {
+      setBookmarklog(id);
+      //sendInputToApp()
+  };
+
+  console.log(bookmarklog)
+
+  function sendInputToApp() {
+      onBookmarkChange(bookmarklog);
+      setBookmarklog('');
   }
 
   return (
@@ -42,12 +62,14 @@ export default function CharacterCard({
         <p>
           Origin: <br></br>
           <span>{origin}</span>
+          <span>{id}</span>
         </p>
       </div>
       <button onClick={handleClick}>Bookmark +</button>
     </CharacterCardWrapper>
   );
 }
+
 
 const CharacterCardWrapper = styled.div`
   display: grid;

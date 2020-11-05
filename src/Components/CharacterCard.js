@@ -18,7 +18,6 @@ export default function CharacterCard({
   function handleClick(id) {
     onBookmarkChange(id)
     setBookmarkClicked(!bookmarkClicked)
-    console.log(bookmarkClicked)
 };
 
 

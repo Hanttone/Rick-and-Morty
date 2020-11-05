@@ -10,13 +10,12 @@ export default function Bookmark({ characterInfo, bookmarksLog, onDeleteBookmark
     onDeleteBookmark(id);
   }
 
-
   return ( 
       <BookmarkItem>
         {bookMarksToShow.length === 0 ? (
     <h1 className="search__error">No bookmarks yet</h1>) : 
     (<h1 className="search__error">Bookmarks:</h1>)}
-          {bookMarksToShow.map((bookmark) => {
+          {bookMarksToShow.map((bookmark) => { 
               return (
                 <div>
                   <img src={bookmark.image} alt="" />

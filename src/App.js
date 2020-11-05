@@ -11,8 +11,9 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
-import Header from "./Components/Header"
-import {CSSTransition, TransitionGroup } from "react-transition-group";
+import Header from "./Components/Header";
+
+//import {CSSTransition, TransitionGroup } from "react-transition-group";
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -90,7 +91,7 @@ function App() {
               </CharCardWrapper>
             </Route>
             <Route path="/bookmarks">
-                <Bookmark characterInfo={characters} bookmarksLog={bookmarkIds} onDeleteBookmark={handleDeleteBookmark}/>
+                <Bookmark key={characters.id} characterInfo={characters} bookmarksLog={bookmarkIds} onDeleteBookmark={handleDeleteBookmark}/>
             </Route>
           </Switch>
           <FooterStyled>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
+import { useState } from "react"
 
 export default function CharacterCard({
   imgUrl,
@@ -12,9 +13,14 @@ export default function CharacterCard({
   onBookmarkChange,
 }) {
 
+  const [bookmarkClicked, setBookmarkClicked] = useState(false)
+
   function handleClick(id) {
     onBookmarkChange(id)
+    setBookmarkClicked(!bookmarkClicked)
+    console.log(bookmarkClicked)
 };
+
 
   return (
     <CharacterCardWrapper>
@@ -36,7 +42,7 @@ export default function CharacterCard({
           <span>{id}</span>
         </p>
       </div>
-      <button onClick={() => handleClick(id)}>Bookmark +</button>
+      {bookmarkClicked ? <button disabled > Bookmarked </button> : <button  onClick={() => handleClick(id)}>Bookmark +</button>}
     </CharacterCardWrapper>
   );
 }
@@ -131,9 +137,10 @@ const CharacterCardWrapper = styled.div`
     grid-row: 2;
 
     background-color: hsla(263, 79%, 33%, 0.9);
-
-    :active {
-      background-color: #b0c384;
-    }
   }
+
+  button[disabled] {
+    background-color: hsla(263, 79%, 55%, 0.9);
+  }
+
 `;

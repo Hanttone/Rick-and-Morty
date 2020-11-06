@@ -1,3 +1,9 @@
+# Getting started with the App
+
+This project was purely design for mobile use only. Currently supported mainly on Iphone devices. 
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

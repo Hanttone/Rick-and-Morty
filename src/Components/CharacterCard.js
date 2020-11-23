@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/macro";
-import PropTypes from "prop-types";
+import { useState } from "react"
 
 export default function CharacterCard({
-  addBookmark,
   imgUrl,
   name,
   status,
@@ -11,21 +10,22 @@ export default function CharacterCard({
   location,
   origin,
   id,
+  onBookmarkChange,
 }) {
-  let deadOrAlive = "";
-  if (status.includes("Dead")) {
-    deadOrAlive = "red";
-  } else if (status.includes("Alive")) {
-    deadOrAlive = "green";
-  } else {
-    deadOrAlive = "yellow";
-  }
+
+  const [bookmarkClicked, setBookmarkClicked] = useState(false)
+
+  function handleClick(id) {
+    onBookmarkChange(id)
+    setBookmarkClicked(!bookmarkClicked)
+};
+
 
   return (
     <CharacterCardWrapper>
       <div className="imageContainer">
         <img src={imgUrl} alt="" />
-        <h2 style={{ color: `${deadOrAlive}` }}>
+        <h2>
           {status} - {species}
         </h2>
       </div>
@@ -38,12 +38,14 @@ export default function CharacterCard({
         <p>
           Origin: <br></br>
           <span>{origin}</span>
+          <span>{id}</span>
         </p>
       </div>
-      <button onClick={addBookmark}>Bookmark +</button>
+      {bookmarkClicked ? <button disabled > Bookmarked </button> : <button  onClick={() => handleClick(id)}>Bookmark +</button>}
     </CharacterCardWrapper>
   );
 }
+
 
 const CharacterCardWrapper = styled.div`
   display: grid;
@@ -57,9 +59,9 @@ const CharacterCardWrapper = styled.div`
   border-radius: 20px;
   margin-top: 20px;
 
-  -webkit-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
-  -moz-box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
-  box-shadow: 0px 0px 37px -6px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0px 0px 27px 3px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0px 0px 27px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 0px 27px 3px rgba(0, 0, 0, 0.7);
 
   div.imageContainer {
     position: relative;
@@ -96,10 +98,12 @@ const CharacterCardWrapper = styled.div`
     border-radius: 20px 0 0 0;
     object-fit: cover;
   }
+
   div.characterCardContent {
     //grid-column: 1;
     align-self: center;
   }
+
   p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -108,6 +112,7 @@ const CharacterCardWrapper = styled.div`
     color: #b0c384;
     font-size: 0.6rem;
   }
+  
   span {
     font-weight: bold;
     font-size: 0.9rem;
@@ -131,9 +136,10 @@ const CharacterCardWrapper = styled.div`
     grid-row: 2;
 
     background-color: hsla(263, 79%, 33%, 0.9);
-
-    :active {
-      background-color: #b0c384;
-    }
   }
+
+  button[disabled] {
+    background-color: hsla(263, 79%, 55%, 0.9);
+  }
+
 `;

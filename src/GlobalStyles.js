@@ -4,8 +4,8 @@ import {createGlobalStyle} from 'styled-components';
 export default createGlobalStyle`
     * {
         box-sizing: border-box;
-        margin: 0 auto;
-        padding: 0 auto;
+        margin: 0;
+        padding: 0;
         font-size: 16px;
         font-family: monospace;
     }
@@ -17,6 +17,7 @@ export default createGlobalStyle`
         background-attachment: fixed;
         height: 100vh;
         width: 100%;
+        transition: ease-in;
     }
 
 `;

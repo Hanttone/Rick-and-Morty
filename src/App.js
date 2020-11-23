@@ -5,42 +5,40 @@ import { useState, useEffect } from "react";
 import SearchField from "./Components/SearchField";
 import getCharacterPages from "./services/getCharacterPages";
 import Bookmark from "./Components/Bookmark";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from "react-router-dom";
+import Header from "./Components/Header";
+
+//import {CSSTransition, TransitionGroup } from "react-transition-group";
 
 function App() {
   const [characters, setCharacters] = useState([]);
-  const [search, setSearch] = useState({
-    response: [],
-    failed: true,
-  });
-
-  const [bookmarks, setBookmarks] = useState([]);
-
-  const addBookmark = (cardId) => {
-    const characterToAdd = characters.find(
-      (character) => character.id === cardId
-    );
-
-    const checkForBookmark = bookmarks.includes(characterToAdd);
-
-    if (checkForBookmark === false) {
-      setBookmarks([...bookmarks, characterToAdd]);
-    } else {
-    }
-  };
-
-  const removeFromBookmark = (cardId) => {
-    const updatedBookmarks = bookmarks.filter(
-      (bookmark) => bookmark.id !== cardId
-    );
-
-    setBookmarks(updatedBookmarks);
-  };
+  const [search, setSearch] = useState({ response: [], failed: true});
 
   useEffect(() => {
     getCharacterPages().then((chars) => setCharacters(chars));
   }, []);
 
-  const onCreateSearch = (searchValue) => {
+  const [bookmarkIds, setBookmarks] = useState([]);
+
+  function handleBookmarkChange(bookmarkId) {
+    if (!bookmarkIds.includes(bookmarkId)) {
+    setBookmarks([...bookmarkIds, bookmarkId]);
+    }
+  }
+
+  function handleDeleteBookmark(indexDelete) {
+    const indexToDelete = bookmarkIds.map(bookmark => bookmark).indexOf(indexDelete);
+    const secondPart = bookmarkIds.splice(indexToDelete + 1)
+    const firstPart = bookmarkIds.splice(0, indexToDelete)
+    setBookmarks([...firstPart, ...secondPart])
+  }
+
+  function onCreateSearch(searchValue) {
     const searchResponse = characters.filter((char) =>
       char.name.toUpperCase().includes(searchValue.toUpperCase())
     );
@@ -60,64 +58,67 @@ function App() {
     setSearch({ failed: false, response: [...characters] });
   };
 
-  const bookmarksDisplay = bookmarks.map((bookmark) => {
-    return (
-      <Bookmark
-        name={bookmark.name}
-        image={bookmark.image}
-        id={bookmark.id}
-        key={bookmark.id}
-        removeFromBookmark={() => removeFromBookmark(bookmark.id)}
-      />
-    );
-  });
-
-  const SearchDisplay = () => {
-    const searchMap = search.response.map(
-      ({ image, name, status, species, location, origin, id }) => (
-        <CharacterCard
-          imgUrl={image}
-          name={name}
-          status={status}
-          species={species}
-          location={location.name}
-          origin={origin.name}
-          addBookmark={() => addBookmark(id)}
-          key={id}
-        />
-      )
-    );
-
-    return searchMap;
-  };
-
-  // JSX START ##
-
   return (
     <>
-      <GlobalStyles />
-      <StickyHeader>
-        <Header>RICK AND MORTY</Header>
-        {search.failed === true ? (
-          <h1 className="search__error">Please enter something</h1>
-        ) : (
-          ""
-        )}
-        <SearchField
-          onCreateSearch={onCreateSearch}
-          handleClearSearch={clearSearch}
-          onShowAll={showAll}
-        />
-        {bookmarks.length === 0 ? (
-          <h1 className="search__error">no bookmarks yet</h1>
-        ) : (
-          <h1 className="search__error">Bookmarks:</h1>
-        )}
-        <BookmarksWrapper>{bookmarksDisplay}</BookmarksWrapper>
-      </StickyHeader>
-      <AppWrapper>
-        <SearchDisplay />
-      </AppWrapper>
+      <Router>
+        <GlobalStyles />
+        <AppWrapper>
+          <Switch>
+            <Route exact path="/">
+              <Header></Header>
+            </Route>
+            <Route path="/search">
+                <SearchField
+                  onCreateSearch={onCreateSearch}
+                  handleClearSearch={clearSearch}
+                  onShowAll={showAll} />
+                <CharCardWrapper>
+                {search.response.map(
+                  ({ image, name, status, species, location, origin, id }) => (
+                    <CharacterCard
+                      imgUrl={image}
+                      name={name}
+                      status={status}
+                      species={species}
+                      location={location.name}
+                      origin={origin.name}
+                      key={id}
+                      id={id}
+                      onBookmarkChange={handleBookmarkChange}
+                    />
+                  )
+                )}
+              </CharCardWrapper>
+            </Route>
+            <Route path="/bookmarks">
+                <Bookmark key={characters.id} characterInfo={characters} bookmarksLog={bookmarkIds} onDeleteBookmark={handleDeleteBookmark}/>
+            </Route>
+          </Switch>
+          <FooterStyled>
+              <nav>
+              <NavLinkStyled
+                activeClassName="active"
+                exact
+                to="/"
+              >
+                Home
+              </NavLinkStyled>
+              <NavLinkStyled
+                activeClassName="active"
+                to="/search"
+              >
+                Search
+              </NavLinkStyled>
+              <NavLinkStyled
+                activeClassName="active"
+                to="/bookmarks"
+              >
+                Bookmarks
+              </NavLinkStyled>
+            </nav>
+        </FooterStyled>
+        </AppWrapper>
+      </Router>
     </>
   );
 }
@@ -126,38 +127,54 @@ export default App;
 
 const AppWrapper = styled.div`
   padding: 20px;
-  height: auto;
+  height: 100vh;
   position: relative;
+  display: flex;
+  justify-content: center;
 `;
 
-const StickyHeader = styled.div`
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 0;
+const CharCardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
   width: 100%;
-  z-index: 999;
-  background-image: linear-gradient(black, transparent);
+  position: fixed;
+  bottom: 8vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  padding-left: 5%;
+  padding-right: 5%;
+`;
 
-  .search__error {
-    font-size: 1.6rem;
-    color: white;
-    text-align: center;
-    text-shadow: 0px 0px 15px black;
-    margin-top: 15px;
+const FooterStyled = styled.footer`
+position: fixed;
+bottom: 0;
+width: 100%;
+display: flex;
+justify-content: center;
+background-color: hsla(263, 79%, 33%, 0.5);
+z-index: 100;
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    height: 8vh;
   }
 `;
 
-const Header = styled.div`
-  height: 53px;
-  color: #a3c259;
-  font-size: 2.5rem;
-  text-align: center;
-`;
 
-const BookmarksWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
+const NavLinkStyled = styled(NavLink)`
+color: white;
+text-decoration: none;
+padding: 8px;
+font-weight: 600;
+
+&.active {
+background-color: hsla(263, 79%, 33%, 0.8);
+color: white;
+border-radius: 5px;
+font-weight: 600;
+}
 `;

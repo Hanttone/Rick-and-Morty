@@ -1,6 +1,13 @@
 # Getting started with the App
 
-This project was purely design for mobile use only. Currently supported mainly on Iphone devices. 
+This project was purely design for mobile use only. Currently supported only supported on Iphone devices. 
+You can search and bookmark your favourite Rick and Morty characters and delete them from your bookmarks. 
+
+Keep in mind the bookmarked characters will be deleted once you close the tab. :) 
+
+Have fun finding out more about the Rick and Morty characters!
+
+
 
 
 
